@@ -3,8 +3,8 @@
 #include <iostream>
 
 struct Task {
-	int _a;
-	int _b;
+	int _number1;
+	int _number2;
 	char _operation;
 	int _answer;
 
@@ -14,11 +14,11 @@ struct Task {
 	char operation() const { 
 		return _operation; 
 	}
-	int a() const { 
-		return _a; 
+	int number1() const {
+		return _number1;
 	}
-	int b() const { 
-		return _b; 
+	int number2() const { 
+		return _number2;
 	}
 	int answer() const { 
 		return _answer; 
@@ -28,32 +28,32 @@ struct Task {
 
 Task::Task() {
 	_operation = "+-*"[std::rand() % 3];
-	_a = 1 + std::rand() % 10;
-	_b = 1 + std::rand() % 10;
+	_number1 = 1 + std::rand() % 10;
+	_number2 = 1 + std::rand() % 10;
 	if (_operation == '+') {
-		_answer = _a + _b;
+		_answer = _number1 + _number2;
 	}
 	else if (_operation == '-') {
-		_answer = _a - _b;
+		_answer = _number1 - _number2;
 	}
 	else {
-		_answer = _a * _b;
+		_answer = _number1 * _number2;
 	}
 }
 
 Task::Task(int a, int b, char operation) {
 	_operation = operation;
-	_a = a + std::rand() % (b - a + 1);
-	_b = a + std::rand() % (b - a + 1);
+	_number1 = a + std::rand() % (b - a + 1);
+	_number2 = a + std::rand() % (b - a + 1);
 
 	if (_operation == '+') {
-		_answer = _a + _b;
+		_answer = _number1 + _number2;
 	}
 	else if (_operation == '-') {
-		_answer = _a - _b;
+		_answer = _number1 - _number2;
 	}
 	else {
-		_answer = _a * _b;
+		_answer = _number1 * _number2;
 	}
 }
 
@@ -147,9 +147,9 @@ void MathTest::run() {
 	std::cout << "\n=== START MATH TEST (" << _count << " tasks) ===\n\n";
 	for (int i = 0; i < _count; ++i) {
 		std::cout << "Task " << (i + 1) << ": "
-			<< _tasks[i]._a << " "
-			<< _tasks[i]._operation << " "
-			<< _tasks[i]._b << " = ";
+			<< _tasks[i].number1() << " "
+			<< _tasks[i].operation() << " "
+			<< _tasks[i].number2() << " = ";
 
 		int ans;
 		std::cin >> ans;
@@ -168,9 +168,9 @@ void MathTest::show_statistics() const {
 
 	std::cout << "Question   |";
 	for (int i = 0; i < _count; ++i) {
-		std::cout << " " << _tasks[i]._a << " "
-			<< _tasks[i]._operation << " "
-			<< _tasks[i]._b << " |";
+		std::cout << " " << _tasks[i]._number1 << " "
+			<< _tasks[i].operation() << " "
+			<< _tasks[i].number1() << " |";
 	}
 	std::cout << "\n";
 

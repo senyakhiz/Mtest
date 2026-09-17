@@ -46,6 +46,14 @@ TEST(TaskTest, ParamConstructor_CorrectAnswer_Multiplication) {
     for (int i = 0; i < 5000; ++i) {
         Task t(1, 10, '*');
         EXPECT_EQ(t.answer(), t.a() * t.b())
-            << "iteration " << i << ", a=" << t._a << ", b=" << t._b;
+            << "iteration " << i << ", a=" << t.a() << ", b=" << t.b();
     }
+}
+
+TEST(MathTestTest, RunTest) {
+
+}
+
+TEST(MathTestTest, ShowTest) {
+
 }

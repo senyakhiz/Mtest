@@ -26,15 +26,25 @@ int main() {
 	}
 	else if (mode == 2) {
 		int count, min, max;
-		std::cout << "count min max: ";
-		std::cin >> count >> min >> max;
+		std::cout << "count:";
+		std::cin >> count;
+		std::cout << "min:";
+		std::cin >> min;
+		std::cout << "max:";
+		std::cin >> max;
 		test = new MathTest(count, min, max);
 	}
 	else {
 		int count, min, max;
 		char op;
-		std::cout << "count min max operation(+ - *): ";
-		std::cin >> count >> min >> max >> op;
+		std::cout << "count:";
+		std::cin >> count;
+		std::cout << "min:";
+		std::cin >> min;
+		std::cout << "max:";
+		std::cin >> max;
+		std::cout << "operation(+ - *): ";
+		std::cin >> op;
 		test = new MathTest(count, min, max, op);
 	}
 

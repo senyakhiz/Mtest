@@ -8,16 +8,16 @@ struct Task {
 	Task();
 	Task(int a, int b, char operation = '\0');
 
-	char operation() const {
+	char operation() const noexcept {
 		return _operation;
 	}
-	int number1() const {
+	int number1() const noexcept {
 		return _number1;
 	}
-	int number2() const {
+	int number2() const noexcept {
 		return _number2;
 	}
-	int answer() const {
+	int answer() const noexcept {
 		return _answer;
 	}
 
@@ -30,33 +30,10 @@ class MathTest {
 	int _correct_count;
 	bool* _answered;
 
-	void basic() {
-		_tasks = new Task[_count];
-		_user_answers = new int[_count] {0};
-		_answered = new bool[_count] {false};
-	}
-
 public:
-	MathTest(int count) : _count(count), _correct_count(0) {
-		basic();
-		for (int i = 0; i < _count; ++i) {
-			_tasks[i] = Task();
-		}
-	}
-
-	MathTest(int count, int min, int max) : _count(count), _correct_count(0) {
-		basic();
-		for (int i = 0; i < _count; ++i) {
-			_tasks[i] = Task(min, max);
-		}
-	}
-
-	MathTest(int count, int min, int max, char operation) : _count(count), _correct_count(0) {
-		basic();
-		for (int i = 0; i < _count; ++i) {
-			_tasks[i] = Task(min, max, operation);
-		}
-	}
+	MathTest(int count);
+	MathTest(int count, int min, int max);
+	MathTest(int count, int min, int max, char operation);
 	~MathTest();
 
 	void run();
@@ -64,19 +41,19 @@ public:
 	bool record_answer(int index, int answer);
 	char get_mark() const;
 
-	int count() const {
+	int count() const noexcept {
 		return _count;
 	}
-	const Task& task(int i) const {
+	const Task& task(int i) const noexcept {
 		return _tasks[i];
 	}
-	int user_answer(int i) const {
+	int user_answer(int i) const noexcept {
 		return _user_answers[i];
 	}
-	int correct_count() const {
+	int correct_count() const noexcept {
 		return _correct_count;
 	}
-	bool answered(int i) const {
+	bool answered(int i) const noexcept {
 		return _answered[i];
 	}
 };

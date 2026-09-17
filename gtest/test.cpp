@@ -45,10 +45,42 @@ TEST(TaskTest, ParamConstructor_CorrectAnswer_Multiplication) {
     }
 }
 
-TEST(MathTestTest, RunTest) {
+TEST(MathTestTest, TrueRunTest) {
+    MathTest mt(5, 1, 10, '+');
 
+    std::stringstream input;
+    for (int i = 0; i < 3; ++i) {
+        input << mt.task(i).answer() << "\n";
+    }
+    std::streambuf* old_in = std::cin.rdbuf(input.rdbuf());
+    std::stringstream output;
+    std::streambuf* old_out = std::cout.rdbuf(output.rdbuf());
+
+    mt.run();
+
+    std::cin.rdbuf(old_in);
+    std::cout.rdbuf(old_out);
+
+    EXPECT_EQ(mt.correct_count(), 3);
+    EXPECT_EQ(mt.get_mark(), 'A');
 }
 
-TEST(MathTestTest, ShowTest) {
+TEST(MathTestTest, FalseRunTest) {
+    MathTest mt(2, 1, 10, '+');
 
+    std::stringstream input;
+    input << "99999\n";
+    input << "99999\n";
+
+    std::streambuf* old_in = std::cin.rdbuf(input.rdbuf());
+    std::stringstream output;
+    std::streambuf* old_out = std::cout.rdbuf(output.rdbuf());
+
+    mt.run();
+
+    std::cin.rdbuf(old_in);
+    std::cout.rdbuf(old_out);
+
+    EXPECT_EQ(mt.correct_count(), 0);
+    EXPECT_EQ(mt.get_mark(), 'F');
 }

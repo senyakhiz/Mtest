@@ -57,76 +57,48 @@ Task::Task() {
     }
 }
 
-Task::Task(int a, int b, char operation) {
-    if (a > b) {
+Task::Task(int min, int max, char operation) {
+    if (min > max) {
         throw std::logic_error("min>max");
     }
 
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<> random_num(a, b);
+    std::uniform_int_distribution<> random_num(min, max);
     std::uniform_int_distribution<> random_operation(0, 3);
 
-    if (operation == '+' || operation == '-' || operation == '*'|| operation == '/') {
+    if (operation == '+' || operation == '-' || operation == '*' || operation == '/') {
         _operation = operation;
     }
     else {
         int op = random_operation(gen);
-        if (op == 0) {
-            _operation = '+';
-        }
-        else if (op == 1) {
-            _operation = '-';
-        }
-        else if (op == 2) {
-            _operation = '*';
-        }
-        else {
-            _operation = '/';
-        }
+        _operation = "+-*/"[op];
     }
-
     if (_operation == '/') {
-        int x = 0, y = 0;
-        for (int attempt = 0; attempt < 10000; ++attempt) {
-            int new_x = random_num(gen);
-            int new_y = random_num(gen);
-            if (new_y != 0 && new_x % new_y == 0) {
-                x = new_x;
-                y = new_y;
-                break;
-            }
-
-            if (y == 0) {
-                for (int j = a; j <= b; ++j) {
-                    if (j != 0) {
-                        y = j;
-                        break;
-                    }
-                }
-                if (y == 0) {
-                    throw std::invalid_argument("Division by zero");
-                }
-                x = y;
-            }
-
-            _number1 = x;
-            _number2 = y;
-            _answer = x / y;
+        if (min == 0 && max == 0) {
+            throw std::invalid_argument("Task: bad range for division, range is [0,0]");
         }
+        int x = 0, y = 0;
+        do {
+            x = random_num(gen);
+            y = random_num(gen);
+        } while (y == 0 || x % y != 0);
+
+        _number1 = x;
+        _number2 = y;
+        _answer = x / y;
     }
-    
     else {
         _number1 = random_num(gen);
         _number2 = random_num(gen);
 
         if (_operation == '+') {
             _answer = _number1 + _number2;
-    }
+        }
         else if (_operation == '-') {
             _answer = _number1 - _number2;
         }
-        else if (_operation == '*') {
+        else {
             _answer = _number1 * _number2;
         }
     }
@@ -138,9 +110,6 @@ MathTest::MathTest(int count) {
     _tasks = new Task[_count];
     _user_answers = new int[_count] {0};
     _answered = new bool[_count] {false};
-    for (int i = 0; i < _count; ++i) {
-        _tasks[i] = Task();
-    }
 }
 
 MathTest::MathTest(int count, int min, int max) {
@@ -150,7 +119,7 @@ MathTest::MathTest(int count, int min, int max) {
     _user_answers = new int[_count] {0};
     _answered = new bool[_count] {false};
     for (int i = 0; i < _count; ++i) {
-        _tasks[i] = Task(min, max); 
+        _tasks[i] = Task(min, max);              
     }
 }
 

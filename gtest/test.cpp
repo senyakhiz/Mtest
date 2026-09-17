@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "Lib1.cpp"
+#include "Lib.h"
 
 TEST(TaskTest, DefaultConstructor_CorrectAnswer) {
     for (int i = 0; i < 10000; ++i) {

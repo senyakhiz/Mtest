@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Lib1.cpp"
+#include "Lib.h"
 #include <cstdlib>
 #include <ctime>
 
@@ -13,15 +13,26 @@ int main() {
 		<< "3 - range tasks with fixed operation\n"
 		<< "Your choice: ";
 
-	int mode = 1;
-	std::cin >> mode;
+	int mode = 0;
+	if (!(std::cin >> mode)) {
+		std::cout << "Error: not a number.\n";
+		return 1;
+	}
+
+	if (mode != 1 && mode != 2 && mode != 3) {
+		std::cout << "Error: mode must be 1, 2 or 3. Got " << mode << ".\n";
+		return 1;
+	}
 
 	MathTest* test = nullptr;
 
 	if (mode == 1) {
 		int count;
 		std::cout << "How many tasks? ";
-		std::cin >> count;
+		if (!(std::cin >> count) || count <= 0) {
+			std::cout << "Error: bad count.\n";
+			return 1;
+		}
 		test = new MathTest(count);
 	}
 	else if (mode == 2) {
@@ -32,6 +43,10 @@ int main() {
 		std::cin >> min;
 		std::cout << "max:";
 		std::cin >> max;
+		if (!std::cin || count <= 0) {
+			std::cout << "Error: bad input.\n";
+			return 1;
+		}
 		test = new MathTest(count, min, max);
 	}
 	else {
@@ -45,6 +60,14 @@ int main() {
 		std::cin >> max;
 		std::cout << "operation(+ - * /): ";
 		std::cin >> op;
+		if (!std::cin || count <= 0) {
+			std::cout << "Error: bad input.\n";
+			return 1;
+		}
+		if (op != '+' && op != '-' && op != '*' && op != '/') {
+			std::cout << "Error: operation must be + - * /.\n";
+			return 1;
+		}
 		test = new MathTest(count, min, max, op);
 	}
 

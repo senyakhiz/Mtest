@@ -43,7 +43,7 @@ int main() {
 		std::cin >> min;
 		std::cout << "max:";
 		std::cin >> max;
-		std::cout << "operation(+ - *): ";
+		std::cout << "operation(+ - * /): ";
 		std::cin >> op;
 		test = new MathTest(count, min, max, op);
 	}

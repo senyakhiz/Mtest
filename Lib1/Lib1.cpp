@@ -7,7 +7,7 @@ Task::Task() {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> random_num(-1000, 1000);
-    std::uniform_int_distribution<> random_operation(0, 2);
+    std::uniform_int_distribution<> random_operation(0, 3);
 
     int op = random_operation(gen);   
     if (op == 0) {
@@ -16,37 +16,58 @@ Task::Task() {
     else if (op == 1) {
         _operation = '-';
     }
-    else {
+    else if (op == 2){
         _operation = '*';
     }
-
-    _number1 = random_num(gen);
-    _number2 = random_num(gen);
-
-    if (_operation == '+') {
-        _answer = _number1 + _number2;
+    else {
+        _operation = '/';
     }
-    else if (_operation == '-') {
-        _answer = _number1 - _number2;
+
+    if (_operation == '/') {
+        std::uniform_int_distribution<> divisor_dist(1, 100);
+        std::uniform_int_distribution<> quotient_dist(-10, 10);
+        std::uniform_int_distribution<> sign(0, 1);
+
+        _number2 = divisor_dist(gen);
+        if (sign(gen) == 1) {
+            _number2 = -_number2;
+        }
+
+        int k = quotient_dist(gen);
+        if (k == 0) {
+            k = 1;
+        }
+
+        _number1 = _number2 * k;
+        _answer = k;
     }
     else {
-        _answer = _number1 * _number2;
+        _number1 = random_num(gen);
+        _number2 = random_num(gen);
+
+        if (_operation == '+') { 
+            _answer = _number1 + _number2; 
+        }
+        else if (_operation == '-') {
+            _answer = _number1 - _number2;
+        }
+        else {
+            _answer = _number1 * _number2;
+        }
     }
 }
 
 Task::Task(int a, int b, char operation) {
     if (a > b) {
-        int t = a; 
-        a = b; 
-        b = t;
+        throw std::logic_error("min>max");
     }
 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> random_num(a, b);
-    std::uniform_int_distribution<> random_operation(0, 2);
+    std::uniform_int_distribution<> random_operation(0, 3);
 
-    if (operation == '+' || operation == '-' || operation == '*') {
+    if (operation == '+' || operation == '-' || operation == '*'|| operation == '/') {
         _operation = operation;
     }
     else {
@@ -57,22 +78,57 @@ Task::Task(int a, int b, char operation) {
         else if (op == 1) {
             _operation = '-';
         }
-        else {
+        else if (op == 2) {
             _operation = '*';
+        }
+        else {
+            _operation = '/';
         }
     }
 
-    _number1 = random_num(gen);
-    _number2 = random_num(gen);
+    if (_operation == '/') {
+        int x = 0, y = 0;
+        for (int attempt = 0; attempt < 10000; ++attempt) {
+            int new_x = random_num(gen);
+            int new_y = random_num(gen);
+            if (new_y != 0 && new_x % new_y == 0) {
+                x = new_x;
+                y = new_y;
+                break;
+            }
 
-    if (_operation == '+') {
-        _answer = _number1 + _number2;
+            if (y == 0) {
+                for (int j = a; j <= b; ++j) {
+                    if (j != 0) {
+                        y = j;
+                        break;
+                    }
+                }
+                if (y == 0) {
+                    throw std::invalid_argument("Division by zero");
+                }
+                x = y;
+            }
+
+            _number1 = x;
+            _number2 = y;
+            _answer = x / y;
+        }
     }
-    else if (_operation == '-') {
-        _answer = _number1 - _number2;
-    }
+    
     else {
-        _answer = _number1 * _number2;
+        _number1 = random_num(gen);
+        _number2 = random_num(gen);
+
+        if (_operation == '+') {
+            _answer = _number1 + _number2;
+    }
+        else if (_operation == '-') {
+            _answer = _number1 - _number2;
+        }
+        else if (_operation == '*') {
+            _answer = _number1 * _number2;
+        }
     }
 }
 

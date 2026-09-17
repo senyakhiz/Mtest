@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "framework.h"
 #include <iostream>
+#include <random>
 
 struct Task {
 	int _number1;
@@ -27,9 +28,14 @@ struct Task {
 };
 
 Task::Task() {
-	_operation = "+-*"[std::rand() % 3];
-	_number1 = 1 + std::rand() % 10;
-	_number2 = 1 + std::rand() % 10;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<> random_num(-1000, 1000);
+	std::uniform_int_distribution<> random_operation(0, 2);
+	
+	_operation = random_operation(gen);
+	_number1 = random_num(gen);
+	_number2 = random_num(gen);
 	if (_operation == '+') {
 		_answer = _number1 + _number2;
 	}
